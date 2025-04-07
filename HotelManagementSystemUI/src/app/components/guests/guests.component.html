@@ -1,0 +1,51 @@
+<div class="guest-container">
+    <h2 class="title">Guest List</h2>
+  
+    <!-- Filter Toggle Button -->
+    <!-- Filter Toggle Button -->
+    <div class="filter-section">
+        <label class="switch">
+          <input type="checkbox" [(ngModel)]="filterActive" (change)="applyFilter()" />
+          <span class="slider round"></span>
+        </label>
+        <span class="filter-label">Show Active Guests Only</span>
+      </div>
+      
+  
+  <!-- Guest Table -->
+  <div *ngIf="filteredGuests.length > 0; else noGuests" class="table-container">
+    <table class="guest-table">
+      <thead>
+        <tr>
+          <th>Guest Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Company</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let guest of filteredGuests">
+          <td>{{ guest.name }}</td>
+          <td>{{ guest.phoneNumber }}</td>
+          <td>{{ guest.email }}</td>
+          <td>{{ guest.company }}</td>
+          <td>
+            <span *ngIf="hasActiveReservation(guest)" class="status active">Active</span>
+            <span *ngIf="!hasActiveReservation(guest)" class="status inactive">Inactive</span>
+          </td>
+          <td>
+            <button (click)="deleteGuest(guest.id)" class="delete-btn">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- No Guests Found Message -->
+  <ng-template #noGuests>
+    <p class="no-guests">No guests found.</p>
+  </ng-template>
+  
+  

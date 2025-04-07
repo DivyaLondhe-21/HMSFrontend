@@ -1,0 +1,40 @@
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Payment List</h2>
+  
+    <div *ngIf="loading" class="text-center">
+      <p>Loading payments...</p>
+    </div>
+  
+    <div *ngIf="!loading && payments.length === 0" class="text-center">
+      <p>No payments found.</p>
+    </div>
+  
+    <table *ngIf="!loading && payments.length > 0" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Payment ID</th>
+          <th>Amount</th>
+          <th>Pay Time</th>
+          <th>Card Holder</th>
+          <th>Generate Bill</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let payment of payments">
+          <td>{{ payment.paymentId }}</td>
+          <td>{{ payment.amount | currency }}</td>
+          <td>{{ payment.payTime | date: 'MMM d, y, h:mm a' }}</td>
+          <td>{{ payment.cardHolderName }}</td>
+          <td>
+            <button
+              class="btn btn-success btn-sm"
+              (click)="generateBill(payment.paymentId)"
+            >
+              Generate Bill
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

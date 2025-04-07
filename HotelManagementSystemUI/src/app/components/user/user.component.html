@@ -1,0 +1,49 @@
+<div class="container">
+    <h2>User Management</h2>
+
+    <!-- Error Message -->
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <!-- User Form (Add User) -->
+    <div class="form-container">
+        <h3>Add User</h3>
+        <input [(ngModel)]="newUser.email" type="email" placeholder="Email" required />
+        <input [(ngModel)]="newUser.password" type="password" placeholder="Password" required />
+        <input [(ngModel)]="newUser.role" type="text" placeholder="Role (Admin/User)" required />
+        <button (click)="addUser()">Add User</button>
+    </div>
+
+    <!-- User List -->
+    <h3>Users</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users">
+                <td>{{ user.userId }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>
+                    <button (click)="editUser(user)">Edit</button>
+                    <button (click)="deleteUser(user.userId)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Edit User Form (Shows Only When Editing) -->
+    <div *ngIf="selectedUser" class="form-container">
+        <h3>Edit User</h3>
+        <input [(ngModel)]="selectedUser.email" type="email" placeholder="Email" required />
+        <input [(ngModel)]="selectedUser.password" type="password" placeholder="Password" required />
+        <input [(ngModel)]="selectedUser.role" type="text" placeholder="Role (Admin/User)" required />
+        <button (click)="updateUser()">Update</button>
+        <button class="cancel" (click)="selectedUser = null">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+ /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Navbar */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #222;
+    padding: 5px 30px;
+  }
+  
+  nav .logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  /* Hero Section */
+  .hero {
+    background: url('https://img.freepik.com/premium-photo/3d-rendering-modern-luxury-hotel-office-reception-lounge-hall_839035-126211.jpg') no-repeat center center;
+    background-size: cover;
+    height: 70vh; /* Full screen height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+    width: 100%;
+  }
+  
+  /* Push about section down */
+  .about {
+    margin-top: 50px; /* Adjust as needed */
+    padding-top: 50px;
+    background-color: white;
+    text-align: center;
+    padding: 50px;
+  }
+  
+  
+  .hero h1 {
+    font-size: 42px;
+  }
+  
+  .hero .btn {
+    background: #323231;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  /* About Section */
+  .about {
+    text-align: center;
+    padding: 50px;
+  }
+  
+  /* Services Section */
+  .services {
+    text-align: center;
+    padding: 50px;
+    background: #f8f8f8;
+  }
+  
+  .service-box {
+    margin: 20px;
+    padding: 20px;
+    background: white;
+    display: inline-block;
+    width: 250px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    background: #222;
+    color: white;
+    padding: 20px;
+  }
+  

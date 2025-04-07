@@ -1,0 +1,48 @@
+<div class="dashboard-container">
+  <nav class="navbar">
+    <div class="nav-logo">HMS</div>
+    <ul class="nav-links">
+      <ng-container *ngIf="!isLoggedIn; else loggedInNav">
+        <!-- Show Login link if not logged in -->
+        <li><a routerLink="/login">Login</a></li>
+      </ng-container>
+  
+      <!-- Show this block when logged in -->
+      <ng-template #loggedInNav>
+        <li *ngIf="isReceptionist || isManager || isAdmin">
+          <a routerLink="/reservation">Reservation</a>
+        </li>
+        <li *ngIf="isReceptionist || isManager || isAdmin">
+          <a routerLink="/guest">Guest</a>
+        </li>
+        <li *ngIf="isReceptionist || isManager || isAdmin">
+          <a routerLink="/room">Rooms</a>
+        </li>
+        <li *ngIf="isReceptionist || isManager || isAdmin">
+          <a routerLink="/rate">Rates</a>
+        </li>
+        <li *ngIf="isReceptionist || isManager || isAdmin">
+          <a routerLink="/payment">Payments/Bill</a>
+        </li>
+
+  
+        <!-- Manager Access -->
+        <li *ngIf="isManager || isAdmin"><a routerLink="/inventory">Inventory</a></li>
+        <li *ngIf="isManager || isAdmin"><a routerLink="/staff">Staff</a></li>
+  
+        <!-- Admin Access -->
+        <li *ngIf="isAdmin"><a routerLink="/department">Departments</a></li>
+  
+        <!-- Common Access -->
+        <li><a routerLink="/profile">Profile</a></li>
+        <li><a (click)="logout()">Logout</a></li>
+      </ng-template>
+    </ul>
+  </nav>
+
+  <div class="dashboard-content">
+    <h2>Welcome to the Dashboard!</h2>
+    <p>Manage your hotel operations here.</p>
+  </div>
+</div>
+

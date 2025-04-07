@@ -1,0 +1,46 @@
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222;
+    padding: 8px 20px; /* Reduced padding to minimize space */
+    margin: 0 auto; /* Center the navbar */
+    max-width: 100%; /* Limiting the width to make it look more cohesive */
+    border-radius: 8px; /* Added rounded corners */
+  }
+  
+  nav .nav-logo {
+    color: rgb(212, 205, 205);
+    font-size: 26px; /* Slightly larger logo text */
+    font-weight: bold;
+    letter-spacing: 1px; /* Added spacing to improve legibility */
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Adjusted gap for a more balanced layout */
+  }
+  
+  nav ul li {
+    margin: 0; /* Removed any unnecessary margin */
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  nav ul li a:hover {
+    color: #6c63ff; /* Hover effect for a modern look */
+    font-weight: bold; /* Make it bold on hover */
+  }
+  
+  /* Optional: Adding a box-shadow for a sleek look */
+  nav {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
