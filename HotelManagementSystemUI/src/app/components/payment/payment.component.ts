@@ -1,18 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { PaymentService } from '../../services/payment/payment.service';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-payment',
+  standalone: true,
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
   imports: [CommonModule]
+  
 })
 export class PaymentComponent implements OnInit {
   payments: any[] = [];
   loading = false;
-
+  @Input() reservationId: number | null= null;
+  @Output() close = new EventEmitter<void>();
   constructor(private paymentService: PaymentService) {}
 
   ngOnInit(): void {

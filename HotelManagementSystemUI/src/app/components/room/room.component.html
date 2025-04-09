@@ -1,157 +1,102 @@
-<div class="container">
-  <h2 class="title">Room List</h2>
-
+<div class="container mt-4">
   <!-- Add Room Button -->
-  <button (click)="openAddRoomModal()" class="add-room-btn">+ Add Room</button>
-
-  <!-- Room Table -->
-  <div class="table-container">
-    <table class="room-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Type</th>
-          <th>Check-In</th>
-          <th>Check-Out</th>
-          <th>Availability</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let room of rooms" class="room-row">
-          <td>{{ room.roomID }}</td>
-          <td>{{ room.roomType }}</td>
-          <td>{{ room.checkInDate | date:'yyyy-MM-dd' }}</td> 
-          <td>{{ room.checkOutDate | date:'yyyy-MM-dd' }}</td>
-          <td>
-            <span
-              [ngClass]="{
-                'available': room.availability,
-                'booked': !room.availability
-              }"
-            >
-              {{ room.availability ? 'Available' : 'Booked' }}
-            </span>
-          </td>
-          <td class="action-buttons">
-            <button (click)="GetRatesForRoom(room.roomID)" class="btn view-btn"> View Rates </button>
-            <button (click)="editRoom(room)" class="btn edit-btn">Edit </button>
-            <button (click)="DeleteRoom(room.roomID)" class="btn delete-btn">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div *ngIf="showRatesModal" class="modal">
-      <div class="modal-content">
-        <h2>Rates for Room {{ selectedRoom?.roomType }}</h2>
-        <table *ngIf="rates.length > 0; else noRates">
-          <thead>
-            <tr>
-              <th>Rate ID</th>
-              <th>First Night Price</th>
-              <th>Extension Price</th>
-              <th>Number of Children</th>
-              <th>Number of Guests</th>
-              <th>Number of Days</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let rate of rates">
-              <td>{{ rate.rateId }}</td>
-              <td>{{ rate.firstNightPrice | currency }}</td>
-              <td>{{ rate.extensionPrice | currency }}</td>
-              <td>{{ rate.numberOfChildren }}</td>
-              <td>{{ rate.numberOfGuests }}</td>
-              <td>{{ rate.numberOfDays }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- Template displayed if no rates are available -->
-        <ng-template #noRates>
-          <p>No rates available for this room.</p>
-        </ng-template>
-    
-        <!-- Close button for the modal -->
-        <button type="button" (click)="closeRatesModal()">Close</button>
+  <div class="header">
+    <h2>Room Management</h2>
+    <button class="btn primary" (click)="openAddRoomModal()">Add Room</button>
+  </div>
+  
+  <!-- Rooms Table -->
+  <table class="custom-table">
+    <thead>
+      <tr>
+        <th>Room ID</th>
+        <th>Room Type</th>
+        <th>Availability</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms">
+        <td>{{ room.roomID }}</td>
+        <td>{{ room.roomType }}</td>
+        <td>
+          <span class="badge" [ngClass]="room.availability ? 'success' : 'danger'">
+            {{ room.availability ? 'Available' : 'Unavailable' }}
+          </span>
+        </td>
+        <td>
+          <button class="btn info small" (click)="getRatesForRoom(room.roomID)">Get Rates</button>
+          <button class="btn warning small" (click)="openEditRoomModal(room)">Edit</button>
+          <button class="btn danger small" (click)="deleteRoom(room.roomID)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- Add/Edit Room Modal -->
+  <div *ngIf="showAddRoomModal || showEditRoomModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>{{ showAddRoomModal ? 'Add Room' : 'Edit Room' }}</h3>
+        <button class="btn close" (click)="closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="roomForm" (ngSubmit)="submitForm()">
+          <label>
+            Room Type
+            <input type="text" formControlName="roomType" />
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="availability" />
+            Available
+          </label>
+  
+          <div class="form-actions">
+            <button type="submit" class="btn success" [disabled]="roomForm.invalid">Save</button>
+            <button type="button" class="btn secondary" (click)="closeModal()">Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
-    <div *ngIf="selectedRoom">
-  <h3>Edit Room</h3>
-  <form [formGroup]="editRoomForm" (ngSubmit)="UpdateRoom()">
-    <label for="roomID">Room ID:</label>
-    <input id="roomID" formControlName="roomID" type="text" [readonly]="true" />
-
-    <label for="roomType">Room Type:</label>
-    <input id="roomType" formControlName="roomType" type="text" />
-
-    <label for="checkInDate">Check-in Date:</label>
-    <input id="checkInDate" formControlName="checkInDate" type="date" />
-
-    <label for="checkOutDate">Check-out Date:</label>
-    <input id="checkOutDate" formControlName="checkOutDate" type="date" />
-
-    <label for="availability">Availability:</label>
-    <input id="availability" formControlName="availability" type="checkbox" />
-
-    <button type="submit" [disabled]="!editRoomForm.valid">Save</button>
-    <button type="button" (click)="cancelEdit()">Cancel</button>
-  </form>
-</div>
   </div>
+  
 
-  <!-- Show rates for selected room -->
-  <div *ngIf="selectedRoom" class="rates-section">
-    <app-rate [roomRates]="rates"></app-rate>
-  </div>
-
-  <!-- Add/Edit Room Modal -->
-  <div class="modal-overlay" *ngIf="showAddRoomModal || showEditRoomModal">
-    <div class="modal-content">
-      <h3 class="modal-title">
-        {{ showEditRoomModal ? 'Edit Room' : 'Add New Room' }}
-      </h3>
-      <form
-        (ngSubmit)="showEditRoomModal ? UpdateRoom() : AddRoom()"
-        #roomForm="ngForm"
-        class="form-container"
-      >
-        <label for="roomType">Room Type:</label>
-        <input
-          type="text"
-          id="roomType"
-          [(ngModel)]="newRoom.roomType"
-          name="roomType"
-          required
-          class="input-field"
-        />
-
-
-        <label for="availability">Availability:</label>
-        <select
-          id="availability"
-          [(ngModel)]="newRoom.availability"
-          name="availability"
-          required
-          class="select-field"
-        >
-          <option [value]="true">Available</option>
-          <option [value]="false">Booked</option>
-        </select>
-
-        <!-- Modal Buttons -->
-        <div class="modal-buttons">
-          <button type="submit" class="btn save-btn">
-            {{ showEditRoomModal ? 'Update Room' : 'Add Room' }}
-          </button>
-          <button
-            type="button"
-            (click)="closeAddRoomModal()"
-            class="btn cancel-btn"
-          >
-            Cancel
-          </button>
+  <!-- Rates Modal -->
+  <div *ngIf="showRatesModal" class="modal d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Rates for Room ID {{ selectedRoom?.roomID }}</h5>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeRatesModal()"></button>
         </div>
-      </form>
+        <div class="modal-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Rate ID</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Effective From</th>
+                <th>Effective To</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rate of rates">
+                <td>{{ rate.rateId }}</td>
+                <td>{{ rate.firstNightPrice }}</td>
+                <td>{{ rate.extensionPrice }}</td>
+                <td>{{ rate.numberOfGuests }}</td>
+                <td>{{ rate.numberOfChildren }}</td>
+                <td>{{ rate.numberOfDays }}</td>
+                <td>{{ rate.roomId }}</td>
+              </tr>
+              <tr *ngIf="rates.length === 0">
+                <td colspan="7" class="text-center">No rates found for this room.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

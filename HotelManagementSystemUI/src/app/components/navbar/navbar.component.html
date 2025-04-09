@@ -8,33 +8,33 @@
   
       <!-- Show this block when logged in -->
       <ng-template #loggedInNav>
-        <!--<li *ngIf="isReceptionist || isManager || isAdmin">
+        <li *ngIf="isReceptionist || isManager || isAdmin">
           <a routerLink="/reservation">Reservation</a>
         </li>
         <li *ngIf="isReceptionist || isManager || isAdmin">
           <a routerLink="/guest">Guest</a>
         </li>
         <li *ngIf="isReceptionist || isManager || isAdmin">
-          <a routerLink="/room">Rooms</a>
+          <a routerLink="/rooms">Rooms</a>
         </li>
         <li *ngIf="isReceptionist || isManager || isAdmin">
           <a routerLink="/rate">Rates</a>
         </li>
         <li *ngIf="isReceptionist || isManager || isAdmin">
           <a routerLink="/payment">Payments/Bill</a>
-        </li> -->
+        </li>
 
   
         <!-- Manager Access -->
-        <!-- <li *ngIf="isManager || isAdmin"><a routerLink="/inventory">Inventory</a></li>
-        <li *ngIf="isManager || isAdmin"><a routerLink="/staff">Staff</a></li> -->
+        <li *ngIf="isManager || isAdmin"><a routerLink="/inventory">Inventory</a></li>
+        <li *ngIf="isManager || isAdmin"><a routerLink="/staff">Staff</a></li>
   
         <!-- Admin Access -->
-        <!-- <li *ngIf="isAdmin"><a routerLink="/department">Departments</a></li> -->
+        <li *ngIf="isAdmin"><a routerLink="/department">Departments</a></li>
   
         <!-- Common Access -->
-        <!-- <li><a routerLink="/profile">Profile</a></li>
-        <li><a (click)="logout()">Logout</a></li> -->
+        <li><a routerLink="/profile">Profile</a></li>
+        <li><a (click)="logout()">Logout</a></li>
       </ng-template>
     </ul>
   </nav>

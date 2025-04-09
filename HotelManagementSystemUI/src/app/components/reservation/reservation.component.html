@@ -1,4 +1,101 @@
-<div class="container">
+<div class="reservation-container">
+  <h2>Reservation Management</h2>
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <input type="text" placeholder="Search by Reservation ID" [(ngModel)]="searchId" (input)="onSearch()" />
+  </div>
+
+  <!-- Add Reservation Button -->
+  <div class="button-section">
+    <button (click)="openReservationModal()">Add Reservation</button>
+  </div>
+
+  <!-- Reservation Modal -->
+  <div class="modal" [class.show]="showReservationModal">
+    <div class="modal-content">
+      <span class="close" (click)="closeReservationModal()">&times;</span>
+      <h3>{{ isEditMode ? 'Update' : 'Create' }} Reservation</h3>
+      <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
+        <!-- Guest Info -->
+        <label>Name</label>
+        <input formControlName="name" type="text" />
+
+        <label>Email</label>
+        <input formControlName="email" type="email" />
+
+        <label>Phone Number</label>
+        <input formControlName="phoneNumber" type="text" />
+
+        <label>Company</label>
+        <input formControlName="company" type="text" />
+
+        <label>Gender</label>
+        <select formControlName="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+
+        <label>Address</label>
+        <input formControlName="address" type="text" />
+
+        <!-- Reservation Info -->
+        <label>Room</label>
+        <input formControlName="roomId" type="number" />
+
+        <label>Check-In Date</label>
+        <input formControlName="checkInDate" type="date" />
+
+        <label>Check-Out Date</label>
+        <input formControlName="checkOutDate" type="date" />
+
+        <label>Number of Adults</label>
+        <input formControlName="numberOfAdults" type="number" />
+
+        <label>Number of Children</label>
+        <input formControlName="numberOfChildren" type="number" />
+
+        <label>Price</label>
+        <input formControlName="price" type="text" readonly />
+
+        <button type="submit">Submit</button>
+        <button type="button" (click)="resetForm()">Reset</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Payment Modal -->
+  <app-payment *ngIf="showPaymentModal" [reservationId]="selectedReservationId" (close)="closePaymentModal()"></app-payment>
+
+  <!-- Reservations Table -->
+  <h4>All Reservations</h4>
+  <table class="reservation-table">
+    <thead>
+      <tr>
+        <th>Reservation ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Room</th>
+        <th>Price</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let reservation of filteredReservations">
+        <td>{{ reservation.reservationId }}</td>
+        <td>{{ reservation.name }}</td>
+        <td>{{ reservation.email }}</td>
+        <td>{{ reservation.roomId }}</td>
+        <td>{{ reservation.price }}</td>
+        <td>
+          <button (click)="onEdit(reservation)">Edit</button>
+          <button (click)="onDelete(reservation.reservationId)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- <div class="container">
   <h2>Reservation</h2>
   <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
@@ -90,4 +187,4 @@
       </tr>
     </tbody>
   </table>
-</div>
+</div> -->

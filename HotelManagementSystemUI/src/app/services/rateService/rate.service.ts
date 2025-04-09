@@ -1,36 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Rate } from '../../models/rate.models'; // adjust the path if needed
 
 @Injectable({
   providedIn: 'root'
 })
 export class RateService {
-  private apiUrl = 'http://localhost:5032/rate';
+  private apiUrl = 'http://localhost:5032/api/rate';
 
   constructor(private http: HttpClient) {}
-  GetRates(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:5000/api/rate'); // replace with your real URL
-  }
-  
-  GetRatesByRoomId(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/`);
+
+  GetRatesByRoomId(roomId: number): Observable<Rate[]> {
+    return this.http.get<Rate[]>(`${this.apiUrl}/room/${roomId}`);
   }
 
-  // getRateById(rateId: number): Observable<any> {
-  //   return this.http.get<any>(`${this.apiUrl}/${rateId}`);
-  // }
-
-  AddRate(rate: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/add/`, rate);
+  AddRate(rate: Rate): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, rate);
   }
 
-  UpdateRate(rateId: number, rate: any): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/update/${rateId}`, rate);
+  UpdateRate(rate: Rate): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}`, rate);
   }
 
   DeleteRate(rateId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/remove/${rateId}`);
+    return this.http.delete<void>(`${this.apiUrl}/${rateId}`);
   }
 }
-

@@ -1,19 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReservationService } from '../../services/reservationService/reservation.service';
+import { PaymentComponent } from '../payment/payment.component';
 
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
   styleUrls: ['./reservation.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, PaymentComponent]
 })
 export class ReservationComponent implements OnInit {
   reservationForm!: FormGroup;
   reservations: any[] = [];
+  filteredReservations: any[] = [];
   isEditMode = false;
   selectedReservationId: number | null = null;
+  showReservationModal = false;
+  showPaymentModal = false;
+  searchId = '';
 
   constructor(private fb: FormBuilder, private reservationService: ReservationService) {}
 
@@ -27,22 +33,52 @@ export class ReservationComponent implements OnInit {
     this.reservationForm = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(100)]],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\+91\s[7-9]\d{9}$/)]],
-      company: ['', [Validators.required, Validators.maxLength(100)]],
+      phoneNumber: ['', [Validators.required]],
+      company: ['', [Validators.required]],
       gender: ['', [Validators.required]],
-      address: ['', [Validators.maxLength(200)]],
+      address: [''],
       roomId: [null, Validators.required],
       checkInDate: ['', Validators.required],
       checkOutDate: ['', Validators.required],
       numberOfAdults: [1, [Validators.required, Validators.min(1)]],
       numberOfChildren: [0, Validators.min(0)],
-      price: [0, Validators.required],
+      price: [0],
+      numberOfNights: [1]
     });
+  }
+
+  onSearch(): void {
+    const id = this.searchId.trim();
+    if (!id) {
+      this.getAllReservations();
+    } else {
+      this.reservations = this.reservations.filter(res => res.reservationId.toString().includes(id));
+    }
+  }
+
+  openReservationModal(): void {
+    this.resetForm();
+    this.showReservationModal = true;
+  }
+
+  closeReservationModal(): void {
+    this.showReservationModal = false;
+  }
+
+  openPaymentModal(): void {
+    this.showPaymentModal = true;
+  }
+
+  closePaymentModal(): void {
+    this.showPaymentModal = false;
   }
 
   getAllReservations(): void {
     this.reservationService.getReservations().subscribe(
-      (data) => (this.reservations = data),
+      (data) => {
+        this.reservations = data;
+        this.filteredReservations = data;
+      },
       () => alert('Error fetching reservations')
     );
   }
@@ -53,14 +89,16 @@ export class ReservationComponent implements OnInit {
       return;
     }
 
+    this.reservationForm.patchValue({ numberOfNights: this.calculateNumOfNights() });
+
     this.isEditMode ? this.updateReservation() : this.createReservation();
   }
 
   createReservation(): void {
     this.reservationService.createReservation(this.reservationForm.value).subscribe(
       () => {
-        alert('Reservation created successfully');
-        this.resetForm();
+        this.closeReservationModal();
+        this.openPaymentModal();
         this.getAllReservations();
       },
       () => alert('Error creating reservation')
@@ -71,6 +109,7 @@ export class ReservationComponent implements OnInit {
     this.isEditMode = true;
     this.selectedReservationId = reservation.reservationId;
     this.reservationForm.patchValue(reservation);
+    this.showReservationModal = true;
   }
 
   updateReservation(): void {
@@ -79,8 +118,10 @@ export class ReservationComponent implements OnInit {
     this.reservationService.updateReservation(this.selectedReservationId, this.reservationForm.value).subscribe(
       () => {
         alert('Reservation updated successfully');
-        this.resetForm();
+        this.closeReservationModal();
         this.getAllReservations();
+        this.isEditMode = false;
+        this.selectedReservationId = null;
       },
       () => alert('Error updating reservation')
     );
@@ -89,10 +130,7 @@ export class ReservationComponent implements OnInit {
   onDelete(reservationId: number): void {
     if (confirm('Are you sure you want to delete this reservation?')) {
       this.reservationService.deleteReservation(reservationId).subscribe(
-        () => {
-          alert('Reservation deleted successfully');
-          this.getAllReservations();
-        },
+        () => this.getAllReservations(),
         () => alert('Error deleting reservation')
       );
     }
@@ -134,6 +172,18 @@ export class ReservationComponent implements OnInit {
     const checkIn = new Date(this.reservationForm.value.checkInDate);
     const checkOut = new Date(this.reservationForm.value.checkOutDate);
     const timeDiff = checkOut.getTime() - checkIn.getTime();
-    return Math.max(Math.ceil(timeDiff / (1000 * 3600 * 24)), 1);
+    const nights = Math.max(Math.ceil(timeDiff / (1000 * 3600 * 24)), 1);
+    return nights;
+  }
+
+  onSearchChange(): void {
+    const id = this.searchId.trim();
+    if (id === '') {
+      this.filteredReservations = this.reservations;
+    } else {
+      this.filteredReservations = this.reservations.filter(
+        (res) => res.reservationId?.toString().includes(id)
+      );
+    }
   }
 }

@@ -1,4 +1,321 @@
-/* General Styles */
+/* Root Theme Colors */
+:root {
+  --primary-color: #1e88e5;
+  --primary-dark: #1565c0;
+  --secondary-color: #f5f7fa;
+  --text-color: #333;
+  --border-radius: 12px;
+}
+
+/* Container */
+.container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+/* Header */
+h2 {
+  color: var(--primary-dark);
+  font-weight: bold;
+}
+
+/* Buttons */
+.btn {
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-warning {
+  background-color: #ffa726;
+  border-color: #fb8c00;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #ef5350;
+  border-color: #e53935;
+}
+
+/* Table Styling */
+table {
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+  width: 100%;
+}
+
+th, td {
+  vertical-align: middle !important;
+}
+
+thead th {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+tbody tr {
+  background-color: var(--secondary-color);
+  transition: background 0.3s;
+}
+
+tbody tr:hover {
+  background-color: #e3f2fd;
+}
+
+/* Modal Styling */
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-dialog {
+  max-width: 600px;
+}
+
+.modal-content {
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  border: none;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.modal-body {
+  background-color: #fafafa;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+}
+
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+  border-radius: var(--border-radius);
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  width: 100%;
+  transition: border 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.2);
+}
+
+/* Form Check (Checkbox) */
+.form-check-input {
+  margin-top: 0.4rem;
+  transform: scale(1.2);
+}
+
+.form-check-label {
+  margin-left: 0.5rem;
+}
+
+/* Badge Styling */
+.badge {
+  font-size: 0.9rem;
+  padding: 6px 10px;
+  border-radius: 50px;
+}
+
+.bg-success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.bg-danger {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 90%;
+  }
+
+  .btn {
+    font-size: 13px;
+    padding: 5px 12px;
+  }
+
+  .table th,
+  .table td {
+    font-size: 13px;
+  }
+}
+/* Layout */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Table Styles */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.custom-table thead {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn.small {
+  padding: 5px 10px;
+  font-size: 13px;
+  margin-right: 5px;
+}
+
+.primary   { background-color: #007bff; color: white; }
+.info      { background-color: #17a2b8; color: white; }
+.warning   { background-color: #ffc107; color: black; }
+.danger    { background-color: #dc3545; color: white; }
+.success   { background-color: #28a745; color: white; }
+.secondary { background-color: #6c757d; color: white; }
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+/* Badge */
+.badge {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #fff;
+}
+.badge.success { background-color: #28a745; }
+.badge.danger  { background-color: #dc3545; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header .btn.close {
+  background: none;
+  font-size: 24px;
+  line-height: 1;
+  color: #888;
+  border: none;
+}
+
+.modal-body form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-body label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #333;
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="date"] {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+/* Footer */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* General Styles
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #f4f4f9;
@@ -21,7 +338,7 @@ body {
   color: #333;
 }
 
-/* Add Room Button */
+/* Add Room Button 
 .add-room-btn {
   display: block;
   margin: 0 auto 20px;
@@ -37,7 +354,7 @@ body {
   transform: scale(1.05);
 }
 
-/* Table Container */
+/* Table Container 
 .table-container {
   overflow-x: auto;
   border-radius: 8px;
@@ -68,7 +385,7 @@ body {
   background-color: #f1f1f1;
 }
 
-/* Availability Styles */
+/* Availability Styles 
 .available {
   color: green;
   font-weight: bold;
@@ -79,7 +396,7 @@ body {
   font-weight: bold;
 }
 
-/* Action Buttons */
+/* Action Buttons 
 .action-buttons {
   display: flex;
   gap: 10px;
@@ -111,7 +428,7 @@ body {
   background-color: #c82333;
 }
 
-/* Modal Styles */
+/* Modal Styles 
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -159,7 +476,7 @@ body {
   outline: none;
 }
 
-/* Modal Buttons */
+/* Modal Buttons 
 .modal-buttons {
   display: flex;
   justify-content: space-between;
@@ -184,7 +501,7 @@ body {
   background-color: #c82333;
 }
 
-/* Animations */
+/* Animations 
 @keyframes slideDown {
   from {
     transform: translateY(-50px);
@@ -275,4 +592,4 @@ button:hover {
 
 .table tbody tr:hover {
   background-color: #f1f1f1;
-}
+} */

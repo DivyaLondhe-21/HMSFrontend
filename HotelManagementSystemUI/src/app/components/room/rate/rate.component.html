@@ -1,93 +1,72 @@
-<div class="rates-container">
-  <h2>Room Rates</h2>
+<div class="container mt-4">
+  <!-- Add Rate Header -->
+  <div class="header">
+    <h2>Rate Management for Room ID {{ selectedRoom?.roomID }}</h2>
+    <input id="roomIdInput" type="number" [(ngModel)]="roomIdInput" name="roomIdInput" />
+    <button class="btn primary" [disabled]="!roomIdInput" (click)="getRatesForRoom(roomIdInput!)">Get Rates</button>
+    <button class="btn primary" (click)="openAddRateModal()">Add Rate</button>
+  </div>
 
-  <!-- Button to show the modal for adding a new rate -->
-  <button class="btn add-rate-btn" (click)="openModal()">Add Rate</button>
-
-  <!-- Display rates in a table if rates are available -->
-  <table *ngIf="rates.length > 0; else noRates">
+  <!-- Rates Table -->
+  <table class="custom-table">
     <thead>
       <tr>
         <th>Rate ID</th>
         <th>First Night Price</th>
         <th>Extension Price</th>
-        <th>Number of Children</th>
-        <th>Number of Guests</th>
-        <th>Number of Days</th>
-        <th>Room Type</th>
-        <th>Actions</th>
+        <th>Guests</th>
+        <th>Children</th>
+        <th>Days</th>
+        <th>Room ID</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let rate of rates">
         <td>{{ rate.rateId }}</td>
-        <td>{{ rate.firstNightPrice | currency }}</td>
-        <td>{{ rate.extensionPrice | currency }}</td>
-        <td>{{ rate.numberOfChildren }}</td>
+        <td>{{ rate.firstNightPrice }}</td>
+        <td>{{ rate.extensionPrice }}</td>
         <td>{{ rate.numberOfGuests }}</td>
+        <td>{{ rate.numberOfChildren }}</td>
         <td>{{ rate.numberOfDays }}</td>
-        <!-- <td>{{ rate.room?.roomType }}</td> -->
-        <td>
-          <button class="btn edit-btn" (click)="editRate(rate)">Edit</button>
-        </td>
+        <td>{{ rate.roomId }}</td>
+      </tr>
+      <tr *ngIf="rates.length === 0">
+        <td colspan="7" class="text-center">No rates found for this room.</td>
       </tr>
     </tbody>
   </table>
 
-  <!-- Template displayed if no rates are available -->
-  <ng-template #noRates>
-    <p>No rates available</p>
-  </ng-template>
+  <!-- Add Rate Modal -->
+  <div *ngIf="showAddRateModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Add Rate</h3>
+        <button class="btn close" (click)="closeRateModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="rateForm" (ngSubmit)="submitRateForm()">
+          <label>First Night Price
+            <input type="number" formControlName="firstNightPrice" />
+          </label>
+          <label>Extension Price
+            <input type="number" formControlName="extensionPrice" />
+          </label>
+          <label>Number of Guests
+            <input type="number" formControlName="numberOfGuests" />
+          </label>
+          <label>Number of Children
+            <input type="number" formControlName="numberOfChildren" />
+          </label>
+          <label>Number of Days
+            <input type="number" formControlName="numberOfDays" />
+          </label>
 
-  <!-- Modal for adding/editing a rate -->
-  <div *ngIf="showModal" class="modal">
-    <div class="modal-content">
-      <form [formGroup]="rateForm" (ngSubmit)="saveRate()">
-        <h2>{{ selectedRate ? 'Edit Rate' : 'Add Rate' }}</h2>
-
-        <label for="firstNightPrice">First Night Price:</label>
-        <input id="firstNightPrice" formControlName="firstNightPrice" type="number" min="1000">
-        <div *ngIf="rateForm.get('firstNightPrice')?.invalid && rateForm.get('firstNightPrice')?.touched">
-          <small *ngIf="rateForm.get('firstNightPrice')?.errors?.['min']">Price must be greater than 1000.</small>
-        </div>
-
-        <label for="extensionPrice">Extension Price:</label>
-        <input id="extensionPrice" formControlName="extensionPrice" type="number" min="800">
-        <div *ngIf="rateForm.get('extensionPrice')?.invalid && rateForm.get('extensionPrice')?.touched">
-          <small *ngIf="rateForm.get('extensionPrice')?.errors?.['min']">Price must be greater than 800.</small>
-        </div>
-
-        <label for="numberOfChildren">Number of Children:</label>
-        <input id="numberOfChildren" formControlName="numberOfChildren" type="number">
-        <div *ngIf="rateForm.get('numberOfChildren')?.invalid && rateForm.get('numberOfChildren')?.touched">
-          <small *ngIf="rateForm.get('numberOfChildren')?.errors?.['required']">Number of children is required.</small>
-        </div>
-
-        <label for="numberOfGuests">Number of Guests:</label>
-        <input id="numberOfGuests" formControlName="numberOfGuests" type="number" min="1" max="3">
-        <div *ngIf="rateForm.get('numberOfGuests')?.invalid && rateForm.get('numberOfGuests')?.touched">
-          <small *ngIf="rateForm.get('numberOfGuests')?.errors?.['min']">Number of guests must be between 1 to 3.</small>
-        </div>
-
-        <label for="numberOfDays">Number of Days:</label>
-        <input id="numberOfDays" formControlName="numberOfDays" type="number" min="1">
-        <div *ngIf="rateForm.get('numberOfDays')?.invalid && rateForm.get('numberOfDays')?.touched">
-          <small *ngIf="rateForm.get('numberOfDays')?.errors?.['min']">Number of days must be at least 1.</small>
-        </div>
-
-        <label for="roomId">Room:</label>
-        <select id="roomId" formControlName="roomId">
-          <option *ngFor="let room of rooms" [value]="room.roomID">{{ room.roomType }}</option>
-        </select>
-        <div *ngIf="rateForm.get('roomId')?.invalid && rateForm.get('roomId')?.touched">
-          <small *ngIf="rateForm.get('roomId')?.errors?.['required']">Room is required.</small>
-        </div>
-
-        <div class="buttons">
-          <button type="submit" [disabled]="rateForm.invalid">Save</button>
-          <button type="button" (click)="closeModal()">Cancel</button>
-        </div>
-      </form>
+          <div class="form-actions">
+            <button type="submit" class="btn success" [disabled]="rateForm.invalid">Save</button>
+            <button type="button" class="btn secondary" (click)="closeRateModal()">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
