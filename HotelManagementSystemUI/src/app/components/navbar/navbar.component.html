@@ -28,12 +28,9 @@
         <!-- Manager Access -->
         <li *ngIf="isManager || isAdmin"><a routerLink="/inventory">Inventory</a></li>
         <li *ngIf="isManager || isAdmin"><a routerLink="/staff">Staff</a></li>
-  
-        <!-- Admin Access -->
-        <li *ngIf="isAdmin"><a routerLink="/department">Departments</a></li>
+
   
         <!-- Common Access -->
-        <li><a routerLink="/profile">Profile</a></li>
         <li><a (click)="logout()">Logout</a></li>
       </ng-template>
     </ul>

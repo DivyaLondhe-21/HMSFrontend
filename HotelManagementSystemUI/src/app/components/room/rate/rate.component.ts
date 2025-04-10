@@ -24,6 +24,7 @@ export class RateComponent {
 
   constructor(private fb: FormBuilder, private rateService: RateService) {
     this.rateForm = this.fb.group({
+      rateId: [0],
       roomId: ['', Validators.required],
       firstNightPrice: ['', Validators.required],
       extensionPrice: ['', Validators.required],

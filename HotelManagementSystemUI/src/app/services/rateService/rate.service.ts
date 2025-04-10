@@ -7,7 +7,7 @@ import { Rate } from '../../models/rate.models'; // adjust the path if needed
   providedIn: 'root'
 })
 export class RateService {
-  private apiUrl = 'http://localhost:5032/api/rate';
+  private apiUrl = 'http://localhost:5032/rate';
 
   constructor(private http: HttpClient) {}
 
