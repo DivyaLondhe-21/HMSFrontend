@@ -11,6 +11,9 @@ export class RateService {
 
   constructor(private http: HttpClient) {}
 
+  GetAllRates(): Observable<Rate[]> {
+    return this.http.get<Rate[]>(`${this.apiUrl}`);
+  }
   GetRatesByRoomId(roomId: number): Observable<Rate[]> {
     return this.http.get<Rate[]>(`${this.apiUrl}/room/${roomId}`);
   }

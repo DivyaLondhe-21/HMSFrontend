@@ -34,16 +34,29 @@ export class RateComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.loadAllRates();
+  }
+
+
+  loadAllRates() {
+    this.rateService.GetAllRates().subscribe(data => {
+      this.rates = data;
+    });
+  }
   getRatesForRoom(roomId: number) {
-    if (!this.selectedRoom) return;
+    if (!roomId) return;
     this.rateService.GetRatesByRoomId(roomId).subscribe(data => {
       this.rates = data;
+      console.log('Rates fetched:', data);
+    }, err => {
+      console.error('Error fetching rates:', err);
     });
   }
 
   openAddRateModal() {
     this.rateForm.reset();
-    this.rateForm.get('roomId')?.setValue(this.selectedRoom);
+    this.rateForm.get('roomId')?.setValue(this.selectedRoom?.roomID || '');
     this.showAddRateModal = true;
     this.showEditRateModal = false;
     this.rateForm.reset();
