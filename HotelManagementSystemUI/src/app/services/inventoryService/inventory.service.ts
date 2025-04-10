@@ -43,7 +43,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class InventoryService {
-  private baseUrl = 'https://localhost:5032/api/inventory';
+  private baseUrl = 'https://localhost:5032/inventory';
 
   constructor(private http: HttpClient) {}
 
@@ -52,19 +52,21 @@ export class InventoryService {
   }
 
   getInventoryByName(itemName: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/inventory/${itemName}`);
+    return this.http.get<any>(`${this.baseUrl}/by-item/${itemName}`);
   }
 
   getInventoryByDepartment(departmentName: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/inventory/${departmentName}`);
+    return this.http.get<any[]>(`${this.baseUrl}/by-department/${departmentName}`);
   }
-
+  getInventoryById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${id}`);
+  }
   createInventory(item: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/create`, item);
+    return this.http.post<any>(`${this.baseUrl}`, item);
   }
 
   updateInventory(id: number, item: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/update/${id}`, item);
+    return this.http.put<any>(`${this.baseUrl}/${id}`, item);
   }
 
   deleteInventory(id: number): Observable<any> {

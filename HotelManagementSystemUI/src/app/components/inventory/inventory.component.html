@@ -72,59 +72,63 @@
     </table>
   </div>
    -->
+<div class="inventory-container">
+  <h2>Inventory Management</h2>
 
+  <form [formGroup]="inventoryForm" (ngSubmit)="onSubmit()" class="inventory-form">
+    <div class="form-row">
+      <label for="itemName">Item Name</label>
+      <input type="text" id="itemName" formControlName="itemName" />
+    </div>
 
-   <div class="container">
-    <h2>Inventory Management</h2>
-    <form [formGroup]="inventoryForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="itemName">Item Name</label>
-        <input type="text" id="itemName" formControlName="itemName" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label for="quantity">Quantity</label>
-        <input type="number" id="quantity" formControlName="quantity" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" id="price" formControlName="price" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label for="departmentId">Department ID</label>
-        <input type="number" id="departmentId" formControlName="departmentId" class="form-control" />
-      </div>
-      <button type="submit" class="btn btn-success" [disabled]="inventoryForm.invalid">
+    <div class="form-row">
+      <label for="quantity">Quantity</label>
+      <input type="number" id="quantity" formControlName="quantity" />
+    </div>
+
+    <div class="form-row">
+      <label for="price">Price</label>
+      <input type="number" id="price" formControlName="price" />
+    </div>
+
+    <div class="form-row">
+      <label for="departmentName">Department Name</label>
+      <input type="text" id="departmentName" formControlName="departmentName" />
+    </div>
+
+    <div class="form-buttons">
+      <button type="submit" [disabled]="inventoryForm.invalid">
         {{ isEditMode ? 'Update' : 'Create' }} Item
       </button>
-      <button type="button" class="btn btn-secondary" (click)="resetForm()">Cancel</button>
-    </form>
-  
-    <hr />
-  
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Item Name</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th>Department ID</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of inventories">
-          <td>{{ item.inventoryId }}</td>
-          <td>{{ item.itemName }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>{{ item.price | currency }}</td>
-          <td>{{ item.departmentId }}</td>
-          <td>
-            <button class="btn btn-warning btn-sm" (click)="onEdit(item)">Edit</button>
-            <button class="btn btn-danger btn-sm" (click)="onDelete(item.inventoryId)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+      <button type="button" class="cancel-btn" (click)="resetForm()">Cancel</button>
+    </div>
+  </form>
+
+  <hr />
+
+  <table class="inventory-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Department</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of inventories">
+        <td>{{ item.inventoryId }}</td>
+        <td>{{ item.itemName }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price | currency }}</td>
+        <td>{{ item.departmentName }}</td>
+        <td>
+          <button class="edit-btn" (click)="onEdit(item)">Edit</button>
+          <button class="delete-btn" (click)="onDelete(item.inventoryId)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

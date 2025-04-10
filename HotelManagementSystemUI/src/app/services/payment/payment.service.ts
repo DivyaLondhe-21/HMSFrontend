@@ -19,7 +19,17 @@ export class PaymentService {
   getPaymentById(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
-
+  createPayment(payment: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, payment);
+  }
+  
+  getPaymentsByDate(date: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/date/${date}`);
+  }
+  
+  getPaymentsByMonthYear(month: number, year: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/month/${month}/year/${year}`);
+  }
   // Generate bill for a payment
   generateBill(paymentId: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/${paymentId}/generate-bill`, {});

@@ -7,7 +7,7 @@ import { Reservation } from '../../models/reservation.models';
   providedIn: 'root'
 })
 export class ReservationService {
-  private baseUrl = 'http://localhost:5032/reservation'; // Update with your ReservationService URL
+  private baseUrl = 'http://localhost:5032/reservations'; // Update with your ReservationService URL
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

@@ -28,6 +28,7 @@ export class RoomComponent implements OnInit {
     this.roomForm = this.fb.group({
       roomID: [0],
       roomType: ['', Validators.required],
+      period: ['1', Validators.required],
       availability: [true, Validators.required]
     });
   }
@@ -60,6 +61,7 @@ export class RoomComponent implements OnInit {
     this.roomForm.patchValue({
       roomID: room.roomID,
       roomType: room.roomType,
+      period: "1",
       availability: room.availability
     });
   }

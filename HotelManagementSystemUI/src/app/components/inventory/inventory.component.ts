@@ -132,7 +132,7 @@ export class InventoryComponent implements OnInit {
       itemName: ['', [Validators.required, Validators.maxLength(100)]],
       quantity: [1, [Validators.required, Validators.min(1)]],
       price: [0, [Validators.required, Validators.min(1)]],
-      departmentId: [0, [Validators.required, Validators.min(1)]]
+      departmentName: ['', Validators.required]  
     });
   }
 

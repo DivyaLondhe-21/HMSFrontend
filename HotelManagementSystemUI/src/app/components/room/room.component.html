@@ -42,14 +42,9 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="roomForm" (ngSubmit)="submitForm()">
-          <label>
-            Room Type
-            <input type="text" formControlName="roomType" />
-          </label>
-          <label class="checkbox-label">
-            <input type="checkbox" formControlName="availability" />
-            Available
-          </label>
+          <label>Room Type <input type="text" formControlName="roomType" /></label>
+          <label class="checkbox-label"><input type="checkbox" formControlName="availability" /> Available </label>
+          <input type="hidden" formControlName="period" />
   
           <div class="form-actions">
             <button type="submit" class="btn success" [disabled]="roomForm.invalid">Save</button>

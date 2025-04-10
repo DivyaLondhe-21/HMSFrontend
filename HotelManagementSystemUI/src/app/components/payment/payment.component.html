@@ -1,40 +1,70 @@
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Payment List</h2>
-  
-    <div *ngIf="loading" class="text-center">
-      <p>Loading payments...</p>
-    </div>
-  
-    <div *ngIf="!loading && payments.length === 0" class="text-center">
-      <p>No payments found.</p>
-    </div>
-  
-    <table *ngIf="!loading && payments.length > 0" class="table table-striped">
-      <thead>
-        <tr>
-          <th>Payment ID</th>
-          <th>Amount</th>
-          <th>Pay Time</th>
-          <th>Card Holder</th>
-          <th>Generate Bill</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let payment of payments">
-          <td>{{ payment.paymentId }}</td>
-          <td>{{ payment.amount | currency }}</td>
-          <td>{{ payment.payTime | date: 'MMM d, y, h:mm a' }}</td>
-          <td>{{ payment.cardHolderName }}</td>
-          <td>
-            <button
-              class="btn btn-success btn-sm"
-              (click)="generateBill(payment.paymentId)"
-            >
-              Generate Bill
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<div class="payment-container">
+  <h2 class="title">Payment List</h2>
+
+  <div class="action-row">
+    <button class="btn primary-btn" (click)="showForm = !showForm">
+      {{ showForm ? 'Cancel' : 'Add Payment' }}
+    </button>
   </div>
-  
+
+  <div *ngIf="showForm" class="payment-form">
+    <h4 class="form-title">Create Payment</h4>
+    <form (ngSubmit)="createPayment()">
+      <div class="form-group">
+        <input type="number" placeholder="Amount" [(ngModel)]="newPayment.amount" name="amount" required />
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Card Holder Name" [(ngModel)]="newPayment.cardHolderName" name="cardHolderName" required />
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Card Number" [(ngModel)]="newPayment.creditCardNumber" name="creditCardNumber" required />
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Card Type" [(ngModel)]="newPayment.creditCardType" name="creditCardType" required />
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="CVV" [(ngModel)]="newPayment.cvv" name="cvv" required />
+      </div>
+      <div class="form-group">
+        <input type="date" [(ngModel)]="newPayment.creditExpiryDate" name="creditExpiryDate" required />
+      </div>
+      <button type="submit" class="btn success-btn">Submit Payment</button>
+    </form>
+  </div>
+
+  <div class="filters">
+    <input type="date" [(ngModel)]="selectedDate" placeholder="Filter by Date" />
+    <button class="btn info-btn" (click)="filterByDate()">Filter by Date</button>
+
+    <input type="number" [(ngModel)]="selectedMonth" placeholder="Month" />
+    <input type="number" [(ngModel)]="selectedYear" placeholder="Year" />
+    <button class="btn info-btn" (click)="filterByMonthYear()">Filter by Month & Year</button>
+
+  </div>
+
+  <div *ngIf="loading" class="status-text">Loading payments...</div>
+  <div *ngIf="!loading && payments.length === 0" class="status-text">No payments found.</div>
+
+  <table *ngIf="!loading && payments.length > 0" class="custom-table">
+    <thead>
+      <tr>
+        <th>Payment ID</th>
+        <th>Amount</th>
+        <th>Pay Time</th>
+        <th>Card Holder</th>
+        <th>Generate Bill</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let payment of payments">
+        <td>{{ payment.paymentId }}</td>
+        <td>{{ payment.amount | currency }}</td>
+        <td>{{ payment.payTime | date: 'MMM d, y, h:mm a' }}</td>
+        <td>{{ payment.cardHolderName }}</td>
+        <td>
+          <button class="btn success-btn small" (click)="generateBill(payment.paymentId)">Generate Bill</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

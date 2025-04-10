@@ -77,6 +77,8 @@
         <th>Email</th>
         <th>Room</th>
         <th>Price</th>
+        <th>Check-In</th>
+        <th>Check-Out</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -87,6 +89,8 @@
         <td>{{ reservation.email }}</td>
         <td>{{ reservation.roomId }}</td>
         <td>{{ reservation.price }}</td>
+        <td>{{ reservation.checkInDate | date:'shortDate' }}</td>
+        <td>{{ reservation.checkOutDate | date:'shortDate' }}</td>
         <td>
           <button (click)="onEdit(reservation)">Edit</button>
           <button (click)="onDelete(reservation.reservationId)">Delete</button>
