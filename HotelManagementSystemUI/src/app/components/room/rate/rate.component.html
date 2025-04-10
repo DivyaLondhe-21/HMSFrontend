@@ -45,6 +45,9 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="rateForm" (ngSubmit)="submitRateForm()">
+          <label>Room ID
+            <input type="number" formControlName="roomId" />
+          </label>
           <label>First Night Price
             <input type="number" formControlName="firstNightPrice" />
           </label>

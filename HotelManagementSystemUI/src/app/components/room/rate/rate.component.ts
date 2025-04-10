@@ -56,10 +56,8 @@ export class RateComponent {
 
   openAddRateModal() {
     this.rateForm.reset();
-    this.rateForm.get('roomId')?.setValue(this.selectedRoom?.roomID || '');
     this.showAddRateModal = true;
     this.showEditRateModal = false;
-    this.rateForm.reset();
   }
 
   openEditRateModal(rate: Rate) {
@@ -85,11 +83,10 @@ export class RateComponent {
   }
 
   submitRateForm() {
-    if (this.rateForm.invalid || !this.selectedRoom) return;
+    if (this.rateForm.invalid ) return;
 
     const ratePayload: Rate = {
       ...this.rateForm.value,
-      roomId: this.selectedRoom.roomID,
       rateId: this.selectedRateId ?? 0
     };
 
@@ -100,7 +97,7 @@ export class RateComponent {
       });
     } else if (this.showEditRateModal && this.selectedRateId !== null) {
       this.rateService.UpdateRate( ratePayload).subscribe(() => {
-        this.getRatesForRoom(this.selectedRoom!.roomID);
+        this.getRatesForRoom(ratePayload.roomId);
         this.closeRateModal();
       });
     }
