@@ -69,35 +69,42 @@
 
   <!-- Reservations Table -->
   <h4>All Reservations</h4>
-  <table class="reservation-table">
+  <table class="table table-bordered">
     <thead>
       <tr>
         <th>Reservation ID</th>
-        <th>Name</th>
+        <th>Guest Name</th>
+        <th>Phone</th>
         <th>Email</th>
-        <th>Room</th>
-        <th>Price</th>
+        <th>Adults</th>
+        <th>Children</th>
         <th>Check-In</th>
         <th>Check-Out</th>
+        <th>Nights</th>
+        <th>Room ID</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let reservation of filteredReservations">
+      <tr *ngFor="let reservation of reservations">
         <td>{{ reservation.reservationId }}</td>
-        <td>{{ reservation.name }}</td>
-        <td>{{ reservation.email }}</td>
+        <td>{{ reservation.guestName }}</td>
+        <td>{{ reservation.guestPhoneNumber }}</td>
+        <td>{{ reservation.guestEmail }}</td>
+        <td>{{ reservation.numberOfAdults }}</td>
+        <td>{{ reservation.numberOfChildren }}</td>
+        <td>{{ reservation.checkInDate | date }}</td>
+        <td>{{ reservation.checkOutDate | date }}</td>
+        <td>{{ reservation.numberOfNights }}</td>
         <td>{{ reservation.roomId }}</td>
-        <td>{{ reservation.price }}</td>
-        <td>{{ reservation.checkInDate | date:'shortDate' }}</td>
-        <td>{{ reservation.checkOutDate | date:'shortDate' }}</td>
         <td>
           <button (click)="onEdit(reservation)">Edit</button>
-          <button (click)="onDelete(reservation.reservationId)">Delete</button>
+          <button class="btn btn-danger btn-sm" (click)="onDelete(reservation.reservationId)">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
+  
 </div>
 <!-- <div class="container">
   <h2>Reservation</h2>

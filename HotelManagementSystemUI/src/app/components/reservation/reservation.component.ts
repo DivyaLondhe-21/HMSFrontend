@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } 
 import { CommonModule } from '@angular/common';
 import { ReservationService } from '../../services/reservationService/reservation.service';
 import { PaymentComponent } from '../payment/payment.component';
+import { Reservation } from '../../models/reservation.models';
 
 @Component({
   selector: 'app-reservation',
@@ -78,7 +79,7 @@ export class ReservationComponent implements OnInit {
       (data) => {
         this.reservations = data;
         this.filteredReservations = data;
-      },
+       },
       () => alert('Error fetching reservations')
     );
   }
@@ -105,12 +106,24 @@ export class ReservationComponent implements OnInit {
     );
   }
 
-  onEdit(reservation: any): void {
-    this.isEditMode = true;
-    this.selectedReservationId = reservation.reservationId;
-    this.reservationForm.patchValue(reservation);
-    this.showReservationModal = true;
-  }
+ onEdit(reservation: Reservation): void {
+  this.isEditMode = true;
+  this.selectedReservationId = reservation.reservationId;
+  this.reservationForm.patchValue({
+    name: reservation.guestName,
+    email: reservation.guestEmail,
+    phoneNumber: reservation.guestPhoneNumber,
+    // You can add others if they exist in form
+    roomId: reservation.roomId,
+    checkInDate: reservation.checkInDate,
+    checkOutDate: reservation.checkOutDate,
+    numberOfAdults: reservation.numberOfAdults,
+    numberOfChildren: reservation.numberOfChildren,
+    numberOfNights: reservation.numberOfNights
+  });
+  this.showReservationModal = true;
+}
+
 
   updateReservation(): void {
     if (!this.selectedReservationId) return;

@@ -1,13 +1,13 @@
-export class Reservation {
-    name: string = '';
-    email: string = '';
-    phoneNumber: string = '';
-    company: string = '';
-    gender: string = '';
-    address: string = '';
-    numberOfAdults: number = 0;
-    numberOfChildren: number = 0;
-    numberOfNights: number = 0;
-    price: number = 0;
-  }
-  
+export interface Reservation {
+  reservationId: number;
+  guestName: string;
+  guestPhoneNumber: string;
+  guestEmail: string;
+  numberOfAdults: number;
+  numberOfChildren: number;
+  checkInDate: string;
+  checkOutDate: string;
+  numberOfNights: number;
+  roomId: number;
+  guestId: number;
+}
